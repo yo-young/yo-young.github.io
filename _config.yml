@@ -15,8 +15,10 @@
 # in the templates via {{ site.myvariable }}.
 title: YoYoung's Blog
 description: 업무 및 공부한 내용 등을 정리하는 곳입니다.
-baseurl: "/yoyoung" # the subpath of your site, e.g. /blog
+baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://yo-young.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+
+remote_theme: just-the-docs/just-the-docs
 
 permalink: pretty
 
