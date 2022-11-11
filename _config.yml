@@ -22,29 +22,6 @@ remote_theme: just-the-docs/just-the-docs
 
 permalink: pretty
 
-exclude:
- # from https://github.com/jekyll/jekyll/blob/master/lib/site_template/_config.yml:
-   - .sass-cache/
-   - .jekyll-cache/
-   - gemfiles/
-   - Gemfile
-   - Gemfile.lock
-   - node_modules/
-   - vendor/bundle/
-   - vendor/cache/
-   - vendor/gems/
-   - vendor/ruby/
- # specific to the theme website:
-   - bin/
-   - lib/
-   - "*.gemspec"
-   - "*.gem"
-   - LICENSE.txt
-   - package.json
-   - package-lock.json
-   - Rakefile
-   - README.md
-
 # Set a path/url to a logo that will be displayed instead of the title
 #logo: "/assets/images/just-the-docs.png"
 
@@ -90,7 +67,7 @@ heading_anchors: true
 
 # Aux links for the upper right navigation
 aux_links:
-  "YoYoung's Blog":
+  "YoYoung's github":
     - "//github.com/yo-young/yo-young.github.io"
 
 # Makes Aux links open in a new tab. Default is false
@@ -102,7 +79,7 @@ nav_sort: case_sensitive # Capital letters sorted before lowercase
 
 # External navigation links
 nav_external_links:
-  - title: YoYoung's Blog
+  - title: github for this blog
     url: https://github.com/yo-young/yo-young.github.io
 
 # Footer content
