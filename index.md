@@ -12,16 +12,16 @@ permalink: /
 
 ## Contact & Channels
 ---
-- **Email** | kimyj7331**@naver.com**
-- **Github** | ****[https://github.com/yo-young](https://github.com/yo-young)
-- **Blog** | ****[https://yo-young.tistory.com/](https://yo-young.tistory.com/)
+- **Email** | kimyj7331@naver.com
+- **Github** | [https://github.com/yo-young](https://github.com/yo-young)
+- **Blog** | [https://yo-young.tistory.com/](https://yo-young.tistory.com/)
 
 # 💁🏻‍♂️ Introduce
 
 ---
 
 - 이동통신 기지국의 access 시스템을 개발하고 있습니다.
-- 주로 5G EN-DC에 관련된 control plane 솔루션을 개발했습니다.
+- 주로 5G EN-DC에 관련된 control plane 솔루션을 개발하고 있습니다.
 - 현재 Ericsson 글로벌 개발 문서(Signaling connection)의 리뷰어를 맡고 있습니다.
 
 # 🛠  Stacks
