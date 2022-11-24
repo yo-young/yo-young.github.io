@@ -6,5 +6,5 @@ has_children: true
 permalink: /docs/Computer Science
 ---
 
-# Development environment
-개발 환경을 위한 내용을 정리합니다.
+# Computer Science
+CS 관련 지식을 정리합니다.
