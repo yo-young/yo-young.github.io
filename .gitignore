@@ -8,3 +8,4 @@ Gemfile.lock
 node_modules
 _code/algorithm/a.exe
 .vscode/settings.json
+*.exe
