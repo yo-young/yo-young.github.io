@@ -2,7 +2,7 @@
 layout: default
 title: lamda 표현식
 parent: C++
-nav_order: 2
+nav_order: 9
 ---
 
 ## 람다 표현식 형태
