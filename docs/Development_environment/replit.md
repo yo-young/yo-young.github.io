@@ -30,6 +30,9 @@ nav_order: 1
   Username for 'https://github.com': yo-young
   Password for 'https://yo-young@github.com':
   ```
+## repl.it에서 commit 했을 때 잔디 심기
+- user.email을 등록
+- `git config user.email "e-mail"` 입력
 
 ## 완료
 - 이렇게 아이패드에서 repl.it을 이용하여 코딩과 github 연동까지 가능하도록 설정이 끝났다!
