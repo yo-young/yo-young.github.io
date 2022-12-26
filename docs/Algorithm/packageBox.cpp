@@ -1,6 +1,6 @@
 ---
 layout: default
-title: 택배상자 / level 1
+title: 택배상자 / level 2
 parent: Algorithm
 nav_order: 8
 ---
