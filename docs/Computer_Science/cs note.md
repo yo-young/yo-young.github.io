@@ -72,3 +72,69 @@ int main() {
     - 원칙
         - 상위 모듈은 하위 모듈에서 어떠한 것도 가져오지 않아야 함
         - 추상화에 의존해야 함
+
+### 1.1.2 팩토리패턴
+
+- ‘팩토리’가 되는 클래스 하나가 모든 타입을 처리하도록 설계
+- 객체를 사용하는 코드에서 객체 생성 부분을 떼어내 추상화
+- 상위 클래스는 뼈대를 결정하고 하위 클래스는 객체 생성에 관한 구체적인 내용을 결정
+- 상위 클래스는 인스턴스 생성 방식에 대해 전혀 알 필요가 없으므로 보다 유연
+- 객체 생성 로직이 따로 존재하므로 리팩터링에 용이
+- 참고
+    - [https://cinrueom.tistory.com/34](https://cinrueom.tistory.com/34)
+    - [https://flower0.tistory.com/414](https://flower0.tistory.com/414)
+    - [https://blog.naver.com/PostView.nhn?blogId=hblee4119&logNo=221968009389&parentCategoryNo=&categoryNo=21&viewDate=&isShowPopularPosts=false&from=postView](https://blog.naver.com/PostView.nhn?blogId=hblee4119&logNo=221968009389&parentCategoryNo=&categoryNo=21&viewDate=&isShowPopularPosts=false&from=postView)
+
+```cpp
+#include <iostream>
+#include <string>
+
+class Pizza {
+public:
+    void getType() {
+        cout<<"type : "<<pizzaType<<endl;
+    }
+public:
+    string pizzaType = "";
+};
+
+class CheesePizza : public Pizza {
+public:
+    CheesePizza() {
+        pizzaType = "cheese";
+    }
+};
+
+class PepperoniPizza : public Pizza  {
+public:
+    PepperoniPizza() {
+        pizzaType = "Pepperoni";
+    }
+};
+
+class PizzaFactory
+{
+public:
+    Pizza* createPizza(string type) {
+        Pizza* pizza;
+        if(!type.compare("cheese")) pizza = new CheesePizza;
+        if(!type.compare("pepperoni")) pizza = new PepperoniPizza;
+        return pizza;
+    }
+};
+
+int main()
+{
+    PizzaFactory factory;
+    Pizza* cheesePizza = factory.createPizza("cheese");
+    Pizza* pepperoni = factory.createPizza("pepperoni");
+    cheesePizza->getType();
+    pepperoni->getType();
+
+	return 0;
+}
+```
+
+- PizzaFactory 클래스에서 type에 따라 pizza 클래스를 생성
+- 참고 블로그에서 PizzaFactory를 사용하는 PizzaStore 클래스를 선언하여 더욱 확장
+- pizzaType이 추후에 추가되어도 PizzaFacotry 클래스만 변경하여 추가 가능
