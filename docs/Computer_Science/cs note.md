@@ -9,6 +9,7 @@ nav_order: 1
   - [1.1 디자인 패턴](#11-디자인-패턴)
     - [1.1.1 싱글톤 패턴](#111-싱글톤-패턴)
     - [1.1.2 팩토리 패턴](#112-팩토리-패턴)
+    - [1.1.3 전략 패턴](#113-전략-패턴)
 
 ---
 
@@ -139,3 +140,128 @@ int main()
 - PizzaFactory 클래스에서 type에 따라 pizza 클래스를 생성
 - 참고 블로그에서 PizzaFactory를 사용하는 PizzaStore 클래스를 선언하여 더욱 확장
 - pizzaType이 추후에 추가되어도 PizzaFacotry 클래스만 변경하여 추가 가능
+
+### 1.1.3 전략 패턴
+
+- 전략 패턴 또는 정책 패턴
+- 객체의 행위를 바꾸고 싶을 때 직접 수정하지 않고 전략이라고 부르는 캡슐화한 알고리즘을 컨텍스트 안에서 바꿔주면서 상호 교체가 가능하도록 하는 패턴
+- 쉽게 말해 알고리즘을 교체 가능
+- 알고리즘의 인터페이스를 정의하고 각각 클래스별로 캡슐화
+- 결과는 같으나 결과를 만드는 방법이 여러개인 경우 사용
+- 참고 블로그
+[https://copynull.tistory.com/125](https://copynull.tistory.com/125)
+
+```cpp
+#include <iostream>
+#include <algorithm>
+#include <list>
+
+class PaymentStrategy {
+public:
+    virtual void pay(int amount) = 0;
+};
+
+class KAKAOCardStrategy : public PaymentStrategy {
+private:
+    std::string name;
+    std::string cardNumber;
+    std::string cvv;
+    std::string dateOfExpiry;
+
+public:
+    KAKAOCardStrategy(std::string nm, std::string ccNum, std::string cvv, std::string expiryDate) {
+        this->name = nm;
+        this->cardNumber = ccNum;
+        this->cvv = cvv;
+        this->dateOfExpiry = expiryDate;
+    }
+
+    void pay(int amount) {
+        std::cout << amount << " paid using KAKAOCard." << std::endl;
+    }
+};
+
+class LUNACardStrategy : public PaymentStrategy {
+private:
+    std::string emailId;
+    std::string password;
+
+public:
+    LUNACardStrategy(std::string email, std::string pwd) {
+        this->emailId = email;
+        this->password = pwd;
+    }
+
+    void pay(int amount) {
+        std::cout << amount << " paid using LUNACard." << std::endl;
+    }
+};
+
+class Item {
+private:
+    std::string name;
+    int price;
+
+public:
+    Item(std::string name, int cost) {
+        this->name = name;
+        this->price = cost;
+    }
+
+    std::string getName() {
+        return name;
+    }
+
+    int getPrice() {
+        return price;
+    }
+};
+
+class ShoppingCart {
+private:
+    std::list<Item> items;
+
+public:
+    ShoppingCart() {
+        this->items = std::list<Item>();
+    }
+
+    void addItem(Item item) {
+        this->items.push_back(item);
+    }
+
+    int calculateTotal() {
+        int sum = 0;
+        for (Item item : items) {
+            sum += item.getPrice();
+        }
+        return sum;
+    }
+
+    void pay(PaymentStrategy* paymentMethod) {
+        int amount = calculateTotal();
+        paymentMethod->pay(amount);
+    }
+};
+
+int main() {
+    ShoppingCart cart = ShoppingCart();
+
+    Item A = Item("kundolA", 100);
+    Item B = Item("kundolB", 300);
+
+    cart.addItem(A);
+    cart.addItem(B);
+
+    // pay by LUNACard
+    cart.pay(new LUNACardStrategy("kundol@example.com", "pukubababo"));
+    // pay by KAKAOBank
+    cart.pay(new KAKAOCardStrategy("Ju hongchul", "123456789", "123", "12/01"));
+
+    return 0;
+}
+```
+
+- KAKAOCardStrategy와 LUNACardStrategy는 PaymentStrategy를 상속
+- 각 strategy는 pay 알고리즘을 overriding 구현
+- 결과적으로 total payment는 동일하지만 strategy에 따라 알고리즘은 다를 수 있다.
