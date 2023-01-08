@@ -265,3 +265,111 @@ int main() {
 - KAKAOCardStrategy와 LUNACardStrategy는 PaymentStrategy를 상속
 - 각 strategy는 pay 알고리즘을 overriding 구현
 - 결과적으로 total payment는 동일하지만 strategy에 따라 알고리즘은 다를 수 있다.
+
+### 1.1.4 옵저버 패턴
+
+- 주체가 어떤 객체의 상태 변화를 관찰하다가 변화가 있을 때마다 옵저버 목록에 있는 옵저버들에게 변화를 알려줌
+- 주체란 객체의 상태변화를 보고 있는 관찰자
+- 옵저버들이란 객체의 상태 변화에 따라 전달되는 메서드 등을 기반으로 추가 변화 사항들이 생기는 객체
+- 관찰자를 따로 두지 않고 상태가 변화하는 객체를 기반으로 구축도 가능
+- 주로 이벤트 기반 시스템에 사용됨
+- MVC(Model-View-Controller)에서도 사용됨
+- 트위터는 대표적으로 옵저버 패턴을 사용한 서비스
+    - 주체가 트윗을 업로드 하면 팔로우한 객체들에게 정보를 알려줌
+
+```cpp
+#include <iostream>
+#include <algorithm>
+#include <vector>
+
+class Observer;
+
+class Subject {
+public:
+    virtual void registerObserver(Observer* obj) = 0;
+    virtual void unregisterObserver(Observer* obj) = 0;
+    virtual void notifyObservers() = 0;
+    virtual std::string getUpdate(Observer* obj) = 0;
+};
+
+class Observer {
+public:
+    virtual void update() = 0;
+};
+
+class Topic : public Subject {
+private:
+    std::vector<Observer*> observers;
+    std::string message;
+
+public:
+    Topic() {
+        this->observers = std::vector<Observer*>();
+        this->message = "";
+    }
+
+    void registerObserver(Observer* obj) {
+        if (std::find(observers.begin(), observers.end(), obj) == observers.end()) {
+            observers.push_back(obj);
+        }
+    }
+
+    void unregisterObserver(Observer* obj) {
+        observers.erase(std::remove(observers.begin(), observers.end(), obj), observers.end());
+    }
+
+    void notifyObservers() {
+        std::for_each(observers.begin(), observers.end(), [](Observer* observer) { observer->update(); });
+    }
+
+    std::string getUpdate(Observer* obj) {
+        return this->message;
+    }
+
+    void postMessage(std::string msg) {
+        std::cout << "Message sended to Topic: " << msg << std::endl;
+        this->message = msg;
+        notifyObservers();
+    }
+};
+
+class TopicSubscriber : public Observer {
+private:
+    std::string name;
+    Subject* topic;
+
+public:
+    TopicSubscriber(std::string name, Subject* topic) {
+        this->name = name;
+        this->topic = topic;
+    }
+
+    void update() {
+        std::string msg = topic->getUpdate(this);
+        std::cout << name << ":: got message >> " << msg << std::endl;
+    }
+};
+
+int main() {
+    Topic topic = Topic();
+    Observer* a = new TopicSubscriber("a", &topic);
+    Observer* b = new TopicSubscriber("b", &topic);
+    Observer* c = new TopicSubscriber("c", &topic);
+    topic.registerObserver(a);
+    topic.registerObserver(b);
+    topic.registerObserver(c);
+
+    topic.postMessage("amumu is op champion!!");
+
+    return 0;
+}
+```
+
+- topic은 주체이자 객체
+    - Subject 인터페이스를 상속 받아 Observer 관련 함수 구현
+- a, b, c 옵저버 객체 생성
+- topic 객체의 registerObserver를 이용하여 옵저버 객체 등록
+    - 이미 등록된 객체인지 확인하고 미등록 상태이면 등록
+    - topic에 observer는 벡터로 관리되고 있음
+- topic에서 message를 post한다.
+    - notifyObservers함수가 호출되고 observers 벡터를 반복하며 각 옵저버 객체의 업데이트함수 호출
