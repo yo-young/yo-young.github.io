@@ -5,8 +5,7 @@ parent: Computer Science
 nav_order: 1
 ---
 
-- [디자인 패턴과 프로그래밍 패러다임](https://yo-young.github.io/docs/Computer_Science/csNote_1_1)
-  - [1.1 디자인 패턴](https://yo-young.github.io/docs/Computer_Science/csNote_1_1/#11-디자인-패턴)
+- [1.1 디자인 패턴](https://yo-young.github.io/docs/Computer_Science/csNote_1_1)
     - [1.1.1 싱글톤 패턴](https://yo-young.github.io/docs/Computer_Science/csNote_1_1/#111-싱글톤-패턴)
     - [1.1.2 팩토리 패턴](https://yo-young.github.io/docs/Computer_Science/csNote_1_1/#112-팩토리-패턴)
     - [1.1.3 전략 패턴](https://yo-young.github.io/docs/Computer_Science/csNote_1_1/#113-전략-패턴)
@@ -17,6 +16,7 @@ nav_order: 1
     - [1.1.8 MVC 패턴](https://yo-young.github.io/docs/Computer_Science/csNote_1_1/#118-mvc-패턴)
     - [1.1.9 MVP 패턴](https://yo-young.github.io/docs/Computer_Science/csNote_1_1/#119-mvp-패턴)
     - [1.1.10 MVVM 패턴](https://yo-young.github.io/docs/Computer_Science/csNote_1_1/#1110-mvvm-패턴)
+- [1.2 프로그래밍 패러다임](https://yo-young.github.io/docs/Computer_Science/csNote_1_2)
 
 ---
 
