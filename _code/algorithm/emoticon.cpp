@@ -1,38 +1,81 @@
-#include <iostream>
 #include <string>
 #include <vector>
-
+#include <algorithm>
+#include <iostream>
 using namespace std;
 
-void dfs (const vector<vector<int>>& users, const vector<int>& emos, int idx, int dcRate, vector<pair<int, int>>& subSales) {
-    int userDcRate = users[idx].front();
-    int userMoney = users[idx].back();
-    cout<<"user id : "<<idx;
-    cout<<", dc rate : "<<userDcRate;
-    cout<<", user dc rate : "<<userDcRate;
-    cout<<", userMoney : "<<userMoney<<endl;
-    int cost = 0;
-    if(dcRate >= userDcRate) {
-        for(auto emo : emos) {
-            cost += emo*dcRate/100;
-            if(cost > userMoney) {
-                cout<<"subscribe !!"<<endl;
-                subSales[idx].first = 1;
-                cost = 0;
-                break;
+int maxEmoticonPlus = 0;
+int maxSales = 0;
+
+void calculate(vector<int> &salesRates, vector<vector<int>> &users, vector<int> &emoticons)
+{
+    int emoticonPlus = 0;
+    int sales = 0;
+    
+    for (vector<int> user : users)
+    {
+        int temp = 0;
+        
+        for (int i = 0; i < salesRates.size(); i++)
+        {
+            if (user[0] > salesRates[i])
+            {
+                continue;
             }
+            
+            temp += (emoticons[i] / 100) * (100 - salesRates[i]);
         }
-        cout <<"total cost : "<< cost <<endl;
+        
+        if (temp >= user[1])
+        {
+            emoticonPlus++;
+        }
+        else
+        {
+            sales += temp;
+        }
     }
-    subSales[idx].second = cost;
+    
+    if (maxEmoticonPlus > emoticonPlus)
+    {
+        return;
+    }
+    
+    if (maxEmoticonPlus == emoticonPlus 
+        && maxSales >= sales)
+    {
+        return;
+    }
+    
+    maxEmoticonPlus = emoticonPlus;
+    maxSales = sales;
 }
 
-vector<int> solution(vector<vector<int>> users, vector<int> emos) {
-    vector<int> answer;
-    vector<pair<int, int>> subSales;
-    subSales.reserve(users.size());
+void func(vector<int> salesRates, vector<vector<int>> &users, vector<int> &emoticons)
+{
+    if (salesRates.size() == emoticons.size())
+    {
+        calculate(salesRates, users, emoticons);
+        
+        return;
+    }
+    
+    for (int i = 10; i <= 40; i += 10)
+    {
+        salesRates.push_back(i);
+        func(salesRates, users, emoticons);
+        salesRates.pop_back();
+    }
+}
 
-    dfs(users, emos, 0, 40, subSales);
+vector<int> solution(vector<vector<int>> users, vector<int> emoticons) {
+    vector<int> v;
+    
+    func(v, users, emoticons);
+    
+    vector<int> answer;
+    answer.push_back(maxEmoticonPlus);
+    answer.push_back(maxSales);
     
     return answer;
 }
