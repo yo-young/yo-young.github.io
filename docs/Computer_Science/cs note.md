@@ -17,6 +17,7 @@ nav_order: 1
     - [1.1.9 MVP 패턴](https://yo-young.github.io/docs/Computer_Science/csNote_1_1/#119-mvp-패턴)
     - [1.1.10 MVVM 패턴](https://yo-young.github.io/docs/Computer_Science/csNote_1_1/#1110-mvvm-패턴)
 - [1.2 프로그래밍 패러다임](https://yo-young.github.io/docs/Computer_Science/csNote_1_2)
+- [2.1 네트워크의 기초](https://yo-young.github.io/docs/Computer_Science/csNote_2_1)
 
 ---
 
