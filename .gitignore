@@ -9,3 +9,4 @@ node_modules
 _code/algorithm/a.exe
 .vscode/settings.json
 *.exe
+.vscode/tasks.json
