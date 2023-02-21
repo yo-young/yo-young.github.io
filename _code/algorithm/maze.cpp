@@ -111,7 +111,6 @@ int bfs(priority_queue<Position>& pq, const vector<string>& maps, char dest) {
 }
 
 int solution(vector<string> maps) {
-    int answer=0;
     pair<int, int> S;
     pair<int, int> L;
     findSL(S, L, maps);
@@ -120,10 +119,14 @@ int solution(vector<string> maps) {
     int time=0;
     //up, down, left, right
     int t = bfs(pq, maps, 'L');
+    if (t == -1) return t;
     cout << "to L : " << t << endl;
     fill(visitedMaps.begin(), visitedMaps.end(), 0);
-
-    return answer;
+    pq = priority_queue<Position>();
+    pq.push({L.first, L.second, t});
+    t = bfs(pq, maps, 'E');
+    cout << "to E : " << t << endl;
+    return t;
 }
 
 int main()
@@ -134,11 +137,7 @@ int main()
         //  "OOOOO",
         //  "OOOOO",
         //  "EOOOO"};
-        {"SOOOL",
-         "XXXXO",
-         "OOOOO",
-         "OXXXX",
-         "OOOOE"};
+        {"LOOXS", "OOOOX", "OOOOO", "OOOOO", "EOOOO"};
     int answer;
     answer = solution (maps);
 
