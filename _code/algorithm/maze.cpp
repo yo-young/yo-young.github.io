@@ -1,12 +1,60 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <queue>
 
 using namespace std;
-int answer = 0;
-bool found = false;
-vector<string> visitedMaps;
-
+// int answer = 0;
+// bool found = false;
+// void dfs(const int x,const int y, const vector<string>& maps, int cnt, char target)
+// {
+//     if(target =='L' && maps[x][y] == 'L' ||
+//        target =='E' && maps[x][y] == 'E') {
+//         answer = cnt;
+//         found = true;
+//         return;
+//     }
+//     //right, down, left, up
+//     ++cnt;
+//     auto temp = visitedMaps[x][y];
+//     visitedMaps[x][y] = 'X';
+//     if(found) return;
+//     if (checkBorder(x, y+1, maps) &&
+//         visitedMaps[x][y+1] != 'X') {
+//         dfs(x, y+1, maps, cnt, target);
+//     }
+//     if (checkBorder(x+1, y, maps) &&
+//         visitedMaps[x+1][y] != 'X') {
+//         dfs(x+1, y, maps, cnt, target);
+//     }
+//     if (checkBorder(x, y-1, maps) &&
+//         visitedMaps[x][y-1] != 'X') {
+//         dfs(x, y-1, maps, cnt, target);
+//     }
+//     if (checkBorder(x-1, y, maps) &&
+//         visitedMaps[x-1][y] != 'X') {
+//         dfs(x-1, y, maps, cnt, target);
+//     }
+//     visitedMaps[x][y] = temp;
+//     --cnt;
+// }
+// int solution(vector<string> maps) {
+//     visitedMaps = maps;
+//     //find S, L
+//     pair<int, int> S;
+//     pair<int, int> L;
+//     findSL(S, L, maps);
+//     dfs(S.first, S.second, maps, 0, 'L');
+//     if(answer == 0) return -1;
+//     int toL = answer;
+//     found = false;
+//     visitedMaps = maps;
+//     dfs(L.first, L.second, maps, answer, 'E');
+//     if(toL == answer) return -1;
+//     return answer;
+// }
+vector<string> visitedMaps(10000);
+pair<int, int> moveDir[4] = {{-1,0},{1,0},{0,-1},{0,1}};
 void findSL(pair<int, int>& S, pair<int, int>& L, const vector<string>& maps)
 {
     for(int i=0; i<maps.size(); i++) {
@@ -23,60 +71,57 @@ void findSL(pair<int, int>& S, pair<int, int>& L, const vector<string>& maps)
     }
 }
 bool checkBorder(int x, int y, const vector<string>& maps) {
-    if (x<0 || y<0) return false;
-    if (x>=maps.size() || y>=maps.size()) return false;
-    if (maps[x][y] == 'X') return false;
-    return true;
+    if (x<0 || y<0) return true;
+    if (x>=maps.size() || y>=maps.size()) return true;
+    if (maps[x][y] == 'X' || visitedMaps[x][y]) return true;
+    return false;
+}
+typedef struct
+{
+    int x, y;
+    int time;
+} Position;
+bool operator<(Position a, Position b)
+{
+    return a.time > b.time;
 }
 
-void dfs(const int x,const int y, const vector<string>& maps, int cnt, char target)
-{
-    if(target =='L' && maps[x][y] == 'L' ||
-       target =='E' && maps[x][y] == 'E') {
-        answer = cnt;
-        found = true;
-        return;
+int bfs(priority_queue<Position>& pq, const vector<string>& maps, char dest) {
+    while(!pq.empty())
+    {
+        int x = pq.top().x;
+        int y = pq.top().y;
+        int time = pq.top().time;
+        pq.pop();
+        for(int i=0; i<4; i++)
+        {
+            int nextX = x+moveDir[i].first;
+            int nextY = y+moveDir[i].second;
+            if(checkBorder(nextX, nextY, maps)) {
+                continue;
+            }
+            if (maps[nextX][nextY] == dest) {
+                return time+1;
+            }
+            visitedMaps[nextX][nextY] = 1;
+            pq.push({nextX, nextY, time+1});
+        }
     }
-    //right, down, left, up
-    ++cnt;
-    auto temp = visitedMaps[x][y];
-    visitedMaps[x][y] = 'X';
-    if(found) return;
-    if (checkBorder(x, y+1, maps) &&
-        visitedMaps[x][y+1] != 'X') {
-        dfs(x, y+1, maps, cnt, target);
-    }
-    if (checkBorder(x+1, y, maps) &&
-        visitedMaps[x+1][y] != 'X') {
-        dfs(x+1, y, maps, cnt, target);
-    }
-    if (checkBorder(x, y-1, maps) &&
-        visitedMaps[x][y-1] != 'X') {
-        dfs(x, y-1, maps, cnt, target);
-    }
-    if (checkBorder(x-1, y, maps) &&
-        visitedMaps[x-1][y] != 'X') {
-        dfs(x-1, y, maps, cnt, target);
-    }
-    visitedMaps[x][y] = temp;
-    --cnt;
-
+    return -1;
 }
 
 int solution(vector<string> maps) {
-    visitedMaps = maps;
-    //find S, L
+    int answer=0;
     pair<int, int> S;
     pair<int, int> L;
     findSL(S, L, maps);
-    dfs(S.first, S.second, maps, 0, 'L');
-    if(answer == 0) return -1;
-
-    int toL = answer;
-    found = false;
-    visitedMaps = maps;
-    dfs(L.first, L.second, maps, answer, 'E');
-    if(toL == answer) return -1;
+    priority_queue<Position> pq;
+    pq.push({S.first, S.second, 0});
+    int time=0;
+    //up, down, left, right
+    int t = bfs(pq, maps, 'L');
+    cout << "to L : " << t << endl;
+    fill(visitedMaps.begin(), visitedMaps.end(), 0);
 
     return answer;
 }
@@ -84,16 +129,16 @@ int solution(vector<string> maps) {
 int main()
 {
     vector<string> maps =
-        {"OOOOO",
+        // {"SOOXL",
+        //  "OOOOX",
+        //  "OOOOO",
+        //  "OOOOO",
+        //  "EOOOO"};
+        {"SOOOL",
          "XXXXO",
          "OOOOO",
          "OXXXX",
-         "OOLES"};
-        // {"SOOOL",
-        //  "XXXXO",
-        //  "OOOOO",
-        //  "OXXXX",
-        //  "OOOOE"};
+         "OOOOE"};
     int answer;
     answer = solution (maps);
 
