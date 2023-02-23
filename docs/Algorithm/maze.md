@@ -298,3 +298,109 @@ nav_order: 8
     | 테스트 21 〉 | 실패 (signal: aborted (core dumped)) |
     | 테스트 22 〉 | 실패 (0.02ms, 4.13MB) |
     | 테스트 23 〉 | 실패 (0.09ms, 4.21MB) |
+
+- 2/23
+    - 문제 해결
+        - 21일 버전에서 수정된 것들
+        - visitedMaps를 array로 변경
+            - 대세에는 큰 영향은 없으나 if문에서 판단하기에 int형 2차원배열이 편리하다고 판단함
+        - 가장 큰 문제는 주어진 maps가 직사각형이라는 것을 관과한 것
+            - `if (x>=maps.size() || y>=maps[0].size()) return true;`
+            - 그래서 border를 체크하는 함수에서 y값의 한계를 잘못 설정했다.
+    
+    ```cpp
+    #include <iostream>
+    #include <string>
+    #include <vector>
+    #include <queue>
+    #include <cstring>
+    
+    using namespace std;
+    
+    int visitedMaps[101][101] = {0,};
+    pair<int, int> moveDir[4] = {{-1,0},{1,0},{0,-1},{0,1}};
+    void findSL(pair<int, int>& S, pair<int, int>& L, const vector<string>& maps)
+    {
+        for(int i=0; i<maps.size(); i++) {
+            for(int j=0; j<maps[i].size(); j++) {
+                if(maps[i][j] == 'S') {
+                    S.first=i;
+                    S.second=j;
+                }
+                if(maps[i][j] == 'L') {
+                    L.first=i;
+                    L.second=j;
+                }
+            }
+        }
+    }
+    bool checkBorder(int x, int y, const vector<string>& maps) {
+        if (x<0 || y<0) return true;
+        if (x>=maps.size() || y>=maps[0].size()) return true;
+        if (maps[x][y] == 'X' || visitedMaps[x][y]) return true;
+        return false;
+    }
+    typedef struct
+    {
+        int x, y;
+        int time;
+    } Position;
+    bool operator<(Position a, Position b)
+    {
+        return a.time > b.time;
+    }
+    
+    int bfs(priority_queue<Position>& pq, const vector<string>& maps, char dest) {
+        while(!pq.empty())
+        {
+            int x = pq.top().x;
+            int y = pq.top().y;
+            int time = pq.top().time;
+            pq.pop();
+            for(int i=0; i<4; i++)
+            {
+                int nextX = x+moveDir[i].first;
+                int nextY = y+moveDir[i].second;
+                if(checkBorder(nextX, nextY, maps)) {
+                    continue;
+                }
+                if (maps[nextX][nextY] == dest) {
+                    return time+1;
+                }
+                visitedMaps[nextX][nextY] = 1;
+                pq.push({nextX, nextY, time+1});
+            }
+        }
+        return -1;
+    }
+    
+    int solution(vector<string> maps) {
+        pair<int, int> S;
+        pair<int, int> L;
+        findSL(S, L, maps);
+        priority_queue<Position> pq;
+        pq.push({S.first, S.second, 0});
+        visitedMaps[S.first][S.second] = 1;
+        int time=0;
+        //up, down, left, right
+        int t = bfs(pq, maps, 'L');
+        if (t == -1) return t;
+        memset(visitedMaps, 0, sizeof(visitedMaps));
+        pq = priority_queue<Position>();
+        pq.push({L.first, L.second, t});
+        visitedMaps[L.first][L.second] = 1;
+        t = bfs(pq, maps, 'E');
+        return t;
+    }
+    ```
+    
+
+### 고찰
+
+- 처음에 DFS를 사용하여 풀이하려고 했으나 시간 초과 발생
+    - 길이 오픈되어 있는 상황의 경우 탐색할 경로가 많아져 시간 초과가 발생한 것으로 예상됨
+    - 예를 들어 {"SOOOO", "OOOOO", "OOLOO", "OOOOO", "OOOOE”} 와 같이 X가 없는 경우
+- 풀이가 오래걸린 이유
+    - 알고리즘 접근 방법의 문제가 아니라 주어진 maps의 조건을 잘못 판단..
+    - 실수를 좀 더 줄일 수 없을까?
+        - 문제를 보면서 다시 타이핑하면 놓치는 조건 없이 파악이 될려나?

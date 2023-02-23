@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <queue>
+#include <cstring>
 
 using namespace std;
 // int answer = 0;
@@ -53,7 +54,7 @@ using namespace std;
 //     if(toL == answer) return -1;
 //     return answer;
 // }
-vector<string> visitedMaps(10000);
+int visitedMaps[101][101] = {0,};
 pair<int, int> moveDir[4] = {{-1,0},{1,0},{0,-1},{0,1}};
 void findSL(pair<int, int>& S, pair<int, int>& L, const vector<string>& maps)
 {
@@ -72,7 +73,7 @@ void findSL(pair<int, int>& S, pair<int, int>& L, const vector<string>& maps)
 }
 bool checkBorder(int x, int y, const vector<string>& maps) {
     if (x<0 || y<0) return true;
-    if (x>=maps.size() || y>=maps.size()) return true;
+    if (x>=maps.size() || y>=maps[0].size()) return true;
     if (maps[x][y] == 'X' || visitedMaps[x][y]) return true;
     return false;
 }
@@ -116,14 +117,16 @@ int solution(vector<string> maps) {
     findSL(S, L, maps);
     priority_queue<Position> pq;
     pq.push({S.first, S.second, 0});
+    visitedMaps[S.first][S.second] = 1;
     int time=0;
     //up, down, left, right
     int t = bfs(pq, maps, 'L');
     if (t == -1) return t;
     cout << "to L : " << t << endl;
-    fill(visitedMaps.begin(), visitedMaps.end(), 0);
+    memset(visitedMaps, 0, sizeof(visitedMaps));
     pq = priority_queue<Position>();
     pq.push({L.first, L.second, t});
+    visitedMaps[L.first][L.second] = 1;
     t = bfs(pq, maps, 'E');
     cout << "to E : " << t << endl;
     return t;
@@ -132,12 +135,37 @@ int solution(vector<string> maps) {
 int main()
 {
     vector<string> maps =
+        {"OOOOOL",
+         "OXOXOO",
+         "OOSXOX",
+         "OXXXOX",
+         "EOOOOX"}; //14
+        // {"XXXXXL",
+        //  "XXXXOO",
+        //  "OOSXOX",
+        //  "OXXXOX",
+        //  "EOOOOX"}; //22
+        // {"XXXXL", "XOOSX", "XXXXX", "XXXOO", "EXXXX", "XXXXX"}; //-1
+        // {"SOOOO",
+        //  "OOOOO",
+        //  "OOLOO",
+        //  "OOOOO",
+        //  "OOOOE"};
+        // {"SOOOO",
+        //  "XXXXX",
+        //  "LOOOO",
+        //  "XXXXX",
+        //  "EOOOO"};
         // {"SOOXL",
         //  "OOOOX",
         //  "OOOOO",
         //  "OOOOO",
         //  "EOOOO"};
-        {"LOOXS", "OOOOX", "OOOOO", "OOOOO", "EOOOO"};
+        // {"LOOXS",
+        //  "OOOOX",
+        //  "OOOOO",
+        //  "OOOOO",
+        //  "EOOOO"};
     int answer;
     answer = solution (maps);
 
