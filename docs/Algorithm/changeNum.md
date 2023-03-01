@@ -40,8 +40,7 @@ nav_order: 8
 - 1 ≤ n < y
 
 ---
-
-- **풀이 과정**
+- 1/31
     - 일단.. DFS로 풀 수 있을 것 같음
     - 연산 횟수는 DFS의 depth
     - x에 연산해서 y가 나오면 answer에 현재 depth를 저장하고 return
@@ -62,7 +61,7 @@ nav_order: 8
     - set을 이용한 풀이
         - 트리구조
         
-        ![Untitled](../../assets/images/algorithm/changeNum_1)
+        ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/61e4b99b-7c07-4fbc-9aa9-b8374b7b1921/Untitled.png)
         
         - x에서 3개 연산을 y보다 작거나 같은 경우 수행하고 set에 저장
         - y랑 같은 수가 있으면 depth 반환. 어떤 연산인지는 상관 없음
@@ -126,11 +125,26 @@ nav_order: 8
     }
     ```
     
-
-### 
+- 3/1
+    - 트리를 이용해서 풀이?
+    - 트리는 어떻게 구현할 것인지?
+        - unordered_set을 이용. map은 키에 대응되는 값이 저장되지만 set은 입력값이 키이자 값이라고 할 수 있다.
+        - set의 count함수는 키 값에 해당하는 데이터가 있으면 1 없으면 0을 반환 따라서 count(y)을 통해 y가 계산될 때까지 while을 이용하여 반복문 수행
+            - 동일한 depth에 존재하는 데이터를 다시 트리로 계산해야하기 때문에 for문 수행
+        - 계산된 값을 키로 사용한다.
+            - x로 10이 주어진다면 10+n, 10*2, 10*3이 키가 된다.
+                - 이 문제는 일종의 삼진트리. 세 값은 동일한 depth
+                - next tree에 저장해둠
+                - 계산한 뒤 이전 depth의 값인 10은 set에서 지운다. (tree clear)
+                - clear된 tree에 계산된 next tree 저장
+                - tree에는 현재 depth에 대한 값들만 저장되어 있음
+            - 키가 y보다 크면 저장하지 않는다.
+                - 계산이 반복되면서 y값이 나오지 않으면 tree가 비는 경우가 발생
+                - -1로 리턴
 
 ### 고찰
 
 - set을 이용한 트리 구조 구현 학습
 - 재귀는 만능이 아니다…
-- 재풀이 필요
+- set을 알고 트리 구조를 알면 쉬운 문제였다.
+- depth 관리와 원하는 값이 나오지 않는 케이스에 대한 처리가 중요.
