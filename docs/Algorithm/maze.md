@@ -196,7 +196,7 @@ nav_order: 8
     
     ```cpp
     vector<string> visitedMaps(10000);
-    pair<int, int> moveDir[4] = {{-1,0},{1,0},{0,-1},{0,1}};
+    pair<int, int> moveDir[4] = { {-1,0},{1,0},{0,-1},{0,1}};
     void findSL(pair<int, int>& S, pair<int, int>& L, const vector<string>& maps)
     {
         for(int i=0; i<maps.size(); i++) {
@@ -318,7 +318,7 @@ nav_order: 8
     using namespace std;
     
     int visitedMaps[101][101] = {0,};
-    pair<int, int> moveDir[4] = {{-1,0},{1,0},{0,-1},{0,1}};
+    pair<int, int> moveDir[4] =  ,{1,0},{0,-1},{0,1}};
     void findSL(pair<int, int>& S, pair<int, int>& L, const vector<string>& maps)
     {
         for(int i=0; i<maps.size(); i++) {
