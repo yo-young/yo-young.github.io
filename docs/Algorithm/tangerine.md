@@ -1,6 +1,6 @@
 ---
 layout: default
-title: 숫자 변환하기 / level 2
+title: 귤 고르기 / level 2
 parent: Algorithm
 nav_order: 8
 ---
