@@ -20,6 +20,8 @@ nav_order: 1
 - [2.1 네트워크의 기초](https://yo-young.github.io/docs/Computer_Science/csNote_2_1)
 - [2.2 TCP/IP 4계층 모델](https://yo-young.github.io/docs/Computer_Science/csNote_2_2)
 - [2.3 네트워크 기기](https://yo-young.github.io/docs/Computer_Science/csNote_2_3)
+- [2.4 IP 주소](https://yo-young.github.io/docs/Computer_Science/csNote_2_4)
+- [2.5 HTTP](https://yo-young.github.io/docs/Computer_Science/csNote_2_5)
 
 ---
 
