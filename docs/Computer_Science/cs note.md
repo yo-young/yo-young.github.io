@@ -22,7 +22,7 @@ nav_order: 1
 - [2.3 네트워크 기기](https://yo-young.github.io/docs/Computer_Science/csNote_2_3)
 - [2.4 IP 주소](https://yo-young.github.io/docs/Computer_Science/csNote_2_4)
 - [2.5 HTTP](https://yo-young.github.io/docs/Computer_Science/csNote_2_5)
-
+- [3.1 운영체제와 컴퓨터](https://yo-young.github.io/docs/Computer_Science/csNote_3_1)
 ---
 
 ### 예제 소스
