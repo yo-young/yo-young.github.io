@@ -14,7 +14,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 title: YoYoung's Blog
-description: 업무 및 공부한 내용 등을 정리하는 곳입니다.
+description: 기록장
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://yo-young.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 
